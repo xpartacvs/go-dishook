@@ -31,3 +31,11 @@ func Send(url string, payload Payload) ([]byte, error) {
 
 	return bytesResp, nil
 }
+
+func NewPayload(url string) (*Payload, error) {
+	p := &Payload{}
+	if err := p.SetWebhookUrl(url); err != nil {
+		return nil, err
+	}
+	return p, nil
+}

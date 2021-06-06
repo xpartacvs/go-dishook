@@ -46,11 +46,12 @@ type Embed struct {
 }
 
 type Payload struct {
-	Username  string  `json:"username,omitempty"`
-	AvatarUrl Url     `json:"avatar_url,omitempty"`
-	Content   string  `json:"content"`
-	Tts       bool    `json:"tts,omitempty"`
-	Embeds    []Embed `json:"embeds,omitempty"`
+	webhookUrl Url     `json:"-"`
+	Username   string  `json:"username,omitempty"`
+	AvatarUrl  Url     `json:"avatar_url,omitempty"`
+	Content    string  `json:"content"`
+	Tts        bool    `json:"tts,omitempty"`
+	Embeds     []Embed `json:"embeds,omitempty"`
 }
 
 func (u Url) MarshalJSON() ([]byte, error) {
@@ -66,5 +67,18 @@ func (u Url) validate() error {
 	if !rgxUrl.MatchString(string(u)) {
 		return errors.New("invalid url")
 	}
+	return nil
+}
+
+func (p Payload) Send() ([]byte, error) {
+	return Send(string(p.webhookUrl), p)
+}
+
+func (p *Payload) SetWebhookUrl(url string) error {
+	u := Url(url)
+	if err := u.validate(); err != nil {
+		return err
+	}
+	p.webhookUrl = u
 	return nil
 }
