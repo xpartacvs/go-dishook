@@ -7,7 +7,7 @@ A discord webhook package helper. Please read the [reference](https://birdie0.gi
 Donwload the package
 
 ```bash
-go get github.com/xpartacvs/go-dishook@v1.1.1
+go get github.com/xpartacvs/go-dishook@v1.2.0
 ```
 
 Package in action:

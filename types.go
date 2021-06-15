@@ -53,6 +53,16 @@ type Payload struct {
 	Embeds    []Embed `json:"embeds,omitempty"`
 }
 
+const (
+	ColorTrace = 3092790
+	ColorDebug = 10170623
+	ColorInfo  = 3581519
+	ColorWarn  = 14327864
+	ColorError = 13631488
+	ColorPanic = 13631488
+	ColorFatal = 13631488
+)
+
 func (u Url) MarshalJSON() ([]byte, error) {
 	if err := u.validate(); err != nil {
 		return nil, err
