@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Send(url string, payload Payload) ([]byte, error) {
+func Post(url string, payload Payload) (reso *http.Response, err error) {
 	u := Url(url)
 	if err := u.validate(); err != nil {
 		return nil, err
@@ -18,7 +18,11 @@ func Send(url string, payload Payload) ([]byte, error) {
 		return nil, err
 	}
 
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(reqBody))
+	return http.Post(url, "application/json", bytes.NewBuffer(reqBody))
+}
+
+func Send(url string, payload Payload) ([]byte, error) {
+	resp, err := Post(url, payload)
 	if err != nil {
 		return nil, err
 	}
