@@ -3,7 +3,7 @@ package dishook
 import (
 	"errors"
 	"fmt"
-	"regexp"
+	"net/url"
 )
 
 type Url string
@@ -72,9 +72,12 @@ func (u Url) MarshalJSON() ([]byte, error) {
 }
 
 func (u Url) validate() error {
-	rgxUrl := regexp.MustCompile("^https?://.*")
-	if !rgxUrl.MatchString(string(u)) {
-		return errors.New("invalid url")
+	resURL, err := url.ParseRequestURI(string(u))
+	if err != nil {
+		return err
+	} else if resURL.Scheme != "https" {
+		return errors.New("scheme must be: https")
 	}
+
 	return nil
 }
