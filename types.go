@@ -2,7 +2,6 @@ package dishook
 
 import (
 	"errors"
-	"fmt"
 	"regexp"
 )
 
@@ -67,7 +66,7 @@ func (u Url) MarshalJSON() ([]byte, error) {
 	if err := u.validate(); err != nil {
 		return nil, err
 	}
-	s := fmt.Sprintf("\"%s\"", string(u))
+	s := "\"" + string(u) + "\""
 	return []byte(s), nil
 }
 
