@@ -6,6 +6,7 @@ import (
 )
 
 type Url string
+type Color uint
 
 type Field struct {
 	Name   string `json:"name"`
@@ -37,7 +38,7 @@ type Embed struct {
 	Title       string  `json:"title,omitempty"`
 	Url         Url     `json:"url,omitempty"`
 	Description string  `json:"description,omitempty"`
-	Color       uint    `json:"color,omitempty"`
+	Color       Color   `json:"color,omitempty"`
 	Fields      []Field `json:"fields,omitempty"`
 	Thumbnail   Image   `json:"thumbnail,omitempty"`
 	Image       Image   `json:"image,omitempty"`
@@ -53,13 +54,13 @@ type Payload struct {
 }
 
 const (
-	ColorTrace = 3092790
-	ColorDebug = 10170623
-	ColorInfo  = 3581519
-	ColorWarn  = 14327864
-	ColorError = 13631488
-	ColorPanic = 13631488
-	ColorFatal = 13631488
+	ColorTrace Color = 3092790
+	ColorDebug Color = 10170623
+	ColorInfo  Color = 3581519
+	ColorWarn  Color = 14327864
+	ColorError Color = 13631488
+	ColorPanic Color = 13631488
+	ColorFatal Color = 13631488
 )
 
 func (u Url) MarshalJSON() ([]byte, error) {
@@ -71,7 +72,7 @@ func (u Url) MarshalJSON() ([]byte, error) {
 }
 
 func (u Url) validate() error {
-	rgxUrl := regexp.MustCompile("^https?://.*")
+	rgxUrl := regexp.MustCompile("(?i)^https?://.*")
 	if !rgxUrl.MatchString(string(u)) {
 		return errors.New("invalid url")
 	}
